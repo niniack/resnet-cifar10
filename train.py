@@ -6,7 +6,7 @@ import models
 
 def train(opt):
     print(opt)
-    with open(os.path.join(opt.checkpoint_dir, 'loss_log.txt'), 'a'):
+    with open(os.path.join(opt.checkpoint_dir, 'loss_log.txt'), 'a') as f:
         f.write(str(opt) + '\n')
     dataloader = data.get_dataloader(True, opt.batch, opt.dataset_dir)
     model = models.ResNetModel(opt)
@@ -24,7 +24,7 @@ def train(opt):
             if total_iter % 10 == 0:
                 txt = f'iter: {total_iter: 6d}, loss: {loss / 10}'
                 print(txt)
-                with open(os.path.join(opt.checkpoint_dir, 'loss_log.txt'), 'a'):
+                with open(os.path.join(opt.checkpoint_dir, 'loss_log.txt'), 'a') as f:
                     f.write(txt + '\n')
                 loss = 0.0
 
