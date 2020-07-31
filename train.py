@@ -1,3 +1,4 @@
+import os
 import argparse
 import torch
 
@@ -6,6 +7,8 @@ import models
 
 def train(opt):
     print(opt)
+    with open(os.path.join(opt.checkpoint_dir, 'loss_log.txt'), 'a'):
+        f.write(str(opt) + '\n')
     dataloader = data.get_dataloader(True, opt.batch, opt.dataset_dir)
     model = models.ResNetModel(opt)
 
@@ -20,14 +23,17 @@ def train(opt):
             loss += model.get_current_loss()
 
             if total_iter % 10 == 0:
-                print(f'iter: {total_iter: 6d}, loss: {loss / 10}')
+                txt = f'iter: {total_iter: 6d}, loss: {loss / 10}'
+                print(txt)
+                with open(os.path.join(opt.checkpoint_dir, 'loss_log.txt'), 'a'):
+                    f.write(txt + '\n')
                 loss = 0.0
 
             if total_iter % 1000 == 0:
                 model.save_model(f'{total_iter // 1000}k')
             
             if total_iter == 64000:
-                model.save_model(f'{total_iter // 1000}k')
+                model.save_model('final')
                 break
 
 
