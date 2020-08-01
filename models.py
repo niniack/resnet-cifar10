@@ -23,6 +23,10 @@ def init_weights(net, gain=0.02):
 class ResNetModel:
     def __init__(self, opt, train=True):
         self.net = nets.ResNetCifar(opt.n)
+        if train:
+            self.net.train()
+        else:
+            self.net.eval()
         if torch.cuda.is_available():
             self.device = torch.device('cuda')
             self.net = self.net.to('cuda')
