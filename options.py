@@ -24,3 +24,12 @@ def parse_args_train():
     args = parser.parse_args()
 
     return args
+
+
+def parse_args_test():
+    parser = argparse.ArgumentParser()
+    parser = parse_args_base(parser)
+    parser.add_argument('--params_path', help='path to saved model weights')
+    args = parser.parse_args()
+
+    return args

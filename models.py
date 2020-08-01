@@ -36,9 +36,8 @@ class ResNetModel:
             num_params += param.numel()
         print(f'Total number of parameters : {num_params / 1e6:.3f} M')
 
-        self.checkpoint_dir = opt.checkpoint_dir
-
         if train:
+            self.checkpoint_dir = opt.checkpoint_dir
             self.optimizer = optim.SGD(
                 self.net.parameters(),
                 lr=opt.lr,
@@ -72,10 +71,22 @@ class ResNetModel:
         self.optimizer.step()
         self.scheduler.step()  # scheduler step in each iteration
 
-    def test(self, x):
-        x = x.to(self.device)
+    def test(self, x, label):
         with torch.no_grad():
-            return self.net(x)
+            x = x.to(self.device)
+            label = label.to(self.device)
+            outputs = self._forward(x)
+            _, predicted = torch.max(outputs.data, 1)
+            total = label.size(0)
+            correct = (predicted == label).sum().item()
+            return correct, total, predicted
+
+    def val(self, x, label):
+        with torch.no_grad():
+            x = x.to(self.device)
+            label = label.to(self.device)
+            y = self._forward(x)
+            return self.criterion(y, label).item()
 
     def save_model(self, name):
         path = os.path.join(self.checkpoint_dir, f'model_{name}.pth')

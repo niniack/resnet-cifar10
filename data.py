@@ -13,7 +13,7 @@ def preprocess_train(tensor):
     tensor = tensor[:, t:t+32, l:l+32]
     if random.random() < 0.5:
         tensor = transforms.functional.hflip(tensor)
-    
+
     return tensor
 
 
