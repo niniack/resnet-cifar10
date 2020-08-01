@@ -17,7 +17,7 @@ class ResNetCifarBlock(nn.Module):
         self.bn1 = nn.BatchNorm2d(output_nc)
         self.conv2 = nn.Conv2d(output_nc, output_nc, kernel_size=3, stride=1, padding=1)
         self.bn2 = nn.BatchNorm2d(output_nc)
-    
+
     def forward(self, x):
         xx = F.relu(self.bn1(self.conv1(x)), inplace=True)
         y = self.bn2(self.conv2(xx))
@@ -48,7 +48,7 @@ class ResNetCifar(nn.Module):
         self.block3 = make_resblock_group(ResNetCifarBlock, 32, 64, n)
         self.pool = nn.AdaptiveAvgPool2d(output_size=(1, 1))  # global average pooling
         self.fc = nn.Linear(64, 10)
-    
+
     def forward(self, x):
         x = F.relu(self.bn(self.conv(x)), inplace=True)
         x = self.block1(x)

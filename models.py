@@ -39,8 +39,17 @@ class ResNetModel:
         self.checkpoint_dir = opt.checkpoint_dir
 
         if train:
-            self.optimizer = optim.SGD(self.net.parameters(), lr=opt.lr, momentum=opt.momentum, weight_decay=opt.weight_decay)
-            self.scheduler = optim.lr_scheduler.MultiStepLR(self.optimizer, milestones=[opt.decay_lr_1, opt.decay_lr_2], gamma=opt.lr_decay_rate)
+            self.optimizer = optim.SGD(
+                self.net.parameters(),
+                lr=opt.lr,
+                momentum=opt.momentum,
+                weight_decay=opt.weight_decay
+                )
+            self.scheduler = optim.lr_scheduler.MultiStepLR(
+                self.optimizer,
+                milestones=[opt.decay_lr_1, opt.decay_lr_2],
+                gamma=opt.lr_decay_rate
+                )
             self.criterion = nn.CrossEntropyLoss()
             self.loss = 0.0
 
@@ -49,30 +58,30 @@ class ResNetModel:
         label = label.to(self.device)
         y = self._forward(x)
         self._update_params(y, label)
-    
+
     def _forward(self, x):
         return self.net(x)
-    
+
     def _backward(self, y, label):
         self.loss = self.criterion(y, label)
         self.loss.backward()
-    
+
     def _update_params(self, y, label):
         self.optimizer.zero_grad()
         self._backward(y, label)
         self.optimizer.step()
         self.scheduler.step()  # scheduler step in each iteration
-    
+
     def test(self, x):
         x = x.to(self.device)
         with torch.no_grad():
             return self.net(x)
-    
+
     def save_model(self, name):
         path = os.path.join(self.checkpoint_dir, f'model_{name}.pth')
         torch.save(self.net.state_dict(), path)
         print(f'model saved to {path}')
-    
+
     def load_model(self, path):
         self.net.load_state_dict(torch.load(path))
         print(f'model loaded from {path}')

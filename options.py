@@ -22,5 +22,5 @@ def parse_args_train():
     parser.add_argument('--lr_decay_rate', help='lr *= lr_decay_rate at drop_lr_i-th iteration', type=float, default=0.1)
     parser.add_argument('--n_iter', help='learning iterations', type=int, default=64000)
     args = parser.parse_args()
-    
+
     return args

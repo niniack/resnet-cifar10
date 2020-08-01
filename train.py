@@ -31,7 +31,7 @@ def train(opt):
 
             if total_iter % opt.save_params_freq == 0:
                 model.save_model(f'{total_iter // opt.save_params_freq}k')
-            
+
             if total_iter == opt.n_iter:
                 model.save_model('final')
                 return
