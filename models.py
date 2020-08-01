@@ -21,7 +21,7 @@ def init_weights(net, gain=0.02):
 
 
 class ResNetModel:
-    def __init__(self, opt):
+    def __init__(self, opt, train=True):
         self.net = nets.ResNetCifar(opt.n)
         if torch.cuda.is_available():
             self.device = torch.device('cuda')
@@ -38,9 +38,9 @@ class ResNetModel:
 
         self.checkpoint_dir = opt.checkpoint_dir
 
-        if opt.is_train:
-            self.optimizer = optim.SGD(self.net.parameters(), lr=0.1, momentum=0.9, weight_decay=0.0001)
-            self.scheduler = optim.lr_scheduler.MultiStepLR(self.optimizer, milestones=[32000, 48000], gamma=0.1)
+        if train:
+            self.optimizer = optim.SGD(self.net.parameters(), lr=opt.lr, momentum=opt.momentum, weight_decay=opt.weight_decay)
+            self.scheduler = optim.lr_scheduler.MultiStepLR(self.optimizer, milestones=[opt.decay_lr_1, opt.decay_lr_2], gamma=opt.lr_decay_rate)
             self.criterion = nn.CrossEntropyLoss()
             self.loss = 0.0
 

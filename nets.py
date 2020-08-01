@@ -46,9 +46,8 @@ class ResNetCifar(nn.Module):
         self.block1 = make_resblock_group(ResNetCifarBlock, 16, 16, n)
         self.block2 = make_resblock_group(ResNetCifarBlock, 16, 32, n)
         self.block3 = make_resblock_group(ResNetCifarBlock, 32, 64, n)
-        self.pool = nn.AdaptiveAvgPool2d(output_size=(1, 1))
+        self.pool = nn.AdaptiveAvgPool2d(output_size=(1, 1))  # global average pooling
         self.fc = nn.Linear(64, 10)
-
     
     def forward(self, x):
         x = F.relu(self.bn(self.conv(x)), inplace=True)
