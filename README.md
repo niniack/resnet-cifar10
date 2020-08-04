@@ -11,7 +11,7 @@
 mkdir path/to/checkpoint_dir
 python train.py --n 3 --checkpoint_dir path/to/checkpoint_dir
 ```
-n means the network complexity, you can choose from {3, 5, 7, 9}, which means ResNet-{20, 32, 44, 56}.
+`n` means the network complexity, you can choose from {3, 5, 7, 9}, which means ResNet-{20, 32, 44, 56}.
 For other options, please refer helps: `python train.py -h`.
 When you run the code for the first time, the dataset will be downloaded automatically.
 
