@@ -22,5 +22,8 @@ When your training is done, the model parameter file `path/to/checkpoint_dir/mod
 python test.py --n 3 --params_path path/to/checkpoint_dir/model_final.pth
 ```
 
+## Note
+If you want to specify GPU, you should set environment variable `CUDA_VISIBLE_DEVICES=0`, for example.
+
 ## References
 - Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun, "Deep residual learning for image recognition," In Proceedings of the IEEE conference on computer vision and pattern recognition, 2016.
