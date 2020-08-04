@@ -2,7 +2,7 @@ import argparse
 
 
 def parse_args_base(parser):
-    parser.add_argument('--n', help='network complexity', type=int, default=3)
+    parser.add_argument('--n', help='network depth', type=int, default=3)
     parser.add_argument('--batch', help='batch size', type=int, default=128)
     parser.add_argument('--dataset_dir', default='./dataset')
     return parser
