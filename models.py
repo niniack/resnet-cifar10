@@ -68,6 +68,7 @@ class ResNetModel:
         label = label.to(self.device)
         y = self._forward(x)
         self._update_params(y, label)
+        return y
 
     def _forward(self, x):
         return self.net(x)
@@ -90,7 +91,8 @@ class ResNetModel:
             _, predicted = torch.max(outputs.data, 1)
             total = label.size(0)
             correct = (predicted == label).sum().item()
-            return correct, total, predicted
+            loss = nn.functional.cross_entropy(outputs, label)
+            return correct, total, loss, predicted
 
     def val(self, x, label):
         with torch.no_grad():
