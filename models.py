@@ -42,12 +42,19 @@ class ResNetModel:
 
         if train:
             self.checkpoint_dir = opt.checkpoint_dir
-            self.optimizer = optim.SGD(
-                self.net.parameters(),
-                lr=opt.lr,
-                momentum=opt.momentum,
-                weight_decay=opt.weight_decay
-                )
+            if (opt.optimizer == "SGD"):
+                self.optimizer = optim.SGD(
+                    self.net.parameters(),
+                    lr=opt.lr,
+                    momentum=opt.momentum,
+                    weight_decay=opt.weight_decay
+                    )
+            elif (opt.optimizer == "ADAM"):
+                self.optimizer = optim.Adam(
+                    self.net.parameters(),
+                    lr=opt.lr,
+                    weight_decay=opt.weight_decay
+                    )
             self.scheduler = optim.lr_scheduler.MultiStepLR(
                 self.optimizer,
                 milestones=[opt.decay_lr_1, opt.decay_lr_2],
